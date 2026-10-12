@@ -1,0 +1,51 @@
+# pastekeyboard.com (Netlify, 저장소 techinpark/pastekeyboard_landing 의 main 자동 배포)
+# website/deploy.sh 가 빌드 결과와 함께 이 파일을 landing 저장소 루트에 복사합니다.
+# 루트는 브라우저 언어에 맞는 페이지로 보냄 (그 밖의 언어는 영어)
+[[redirects]]
+  from = "/"
+  to = "/ko/"
+  status = 302
+  force = true
+  conditions = { Language = ["ko"] }
+[[redirects]]
+  from = "/"
+  to = "/ja/"
+  status = 302
+  force = true
+  conditions = { Language = ["ja"] }
+[[redirects]]
+  from = "/"
+  to = "/th/"
+  status = 302
+  force = true
+  conditions = { Language = ["th"] }
+[[redirects]]
+  from = "/"
+  to = "/es/"
+  status = 302
+  force = true
+  conditions = { Language = ["es"] }
+[[redirects]]
+  from = "/"
+  to = "/en/"
+  status = 302
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+[[headers]]
+  for = "/og/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+[[headers]]
+  for = "/feedback/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

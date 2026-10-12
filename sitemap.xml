@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://pastekeyboard.com/ko/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://pastekeyboard.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pastekeyboard.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://pastekeyboard.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://pastekeyboard.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://pastekeyboard.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pastekeyboard.com/"/>
+  </url>
+  <url>
+    <loc>https://pastekeyboard.com/en/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://pastekeyboard.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pastekeyboard.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://pastekeyboard.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://pastekeyboard.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://pastekeyboard.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pastekeyboard.com/"/>
+  </url>
+  <url>
+    <loc>https://pastekeyboard.com/ja/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://pastekeyboard.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pastekeyboard.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://pastekeyboard.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://pastekeyboard.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://pastekeyboard.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pastekeyboard.com/"/>
+  </url>
+  <url>
+    <loc>https://pastekeyboard.com/th/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://pastekeyboard.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pastekeyboard.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://pastekeyboard.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://pastekeyboard.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://pastekeyboard.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pastekeyboard.com/"/>
+  </url>
+  <url>
+    <loc>https://pastekeyboard.com/es/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://pastekeyboard.com/ko/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pastekeyboard.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://pastekeyboard.com/ja/"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://pastekeyboard.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://pastekeyboard.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pastekeyboard.com/"/>
+  </url>
+</urlset>

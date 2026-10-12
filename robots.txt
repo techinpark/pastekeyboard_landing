@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /feedback/
+
+Sitemap: https://pastekeyboard.com/sitemap.xml
