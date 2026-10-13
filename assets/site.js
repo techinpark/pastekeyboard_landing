@@ -62,6 +62,15 @@
   $("#del").onclick = () => { clearInterval(typing); text = Array.from(text).slice(0, -1).join(""); renderField(); };
   $("#globe").onclick = () => { cat = (cat + 1) % data.cats.length; renderKeys(); };
 
+  // 스토어 이동 클릭을 GA4 install_click 이벤트로 기록 (어느 위치의 버튼인지 placement 로 구분)
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href*="apps.apple.com"], a[href*="play.google.com"]');
+    if (!a || typeof gtag !== "function") return;
+    const placement = [["install-bar", ".install-bar"], ["header", ".top"], ["hero", ".hero"], ["end", ".end"]]
+      .find(([, sel]) => a.closest(sel))?.[0] || "other";
+    gtag("event", "install_click", { store: a.href.includes("play.google.com") ? "google_play" : "app_store", placement });
+  });
+
   renderField();
   renderKeys();
   setupScrollEffects();
