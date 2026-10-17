@@ -53,3 +53,12 @@
   for = "/survey/*"
   [headers.values]
     X-Robots-Tag = "noindex"
+# 폼 응답 → 디스코드 알림 함수 (website/functions → netlify/functions)
+[functions]
+  directory = "netlify/functions"
+# 함수 소스 파일이 정적 파일로 노출되지 않도록 막음
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404.html"
+  status = 404
+  force = true
