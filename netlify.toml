@@ -49,3 +49,7 @@
   for = "/feedback/*"
   [headers.values]
     X-Robots-Tag = "noindex"
+[[headers]]
+  for = "/survey/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
