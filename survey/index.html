@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1QGC8KQCWV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-1QGC8KQCWV");</script>
 <title>Paste Keyboard Survey</title>
 <link rel="icon" href="/assets/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,6 +88,7 @@ legend + * { clear: both; }
 }
 .scale label:has(input:checked) { border-color: var(--cyan); background: var(--cyan-wash); color: var(--cyan-deep); }
 .scale input { position: absolute; opacity: 0; pointer-events: none; }
+.scale label:has(input:focus-visible) { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .scale-ends { display: flex; justify-content: space-between; color: var(--muted); font-size: .8125rem; margin-top: 6px; gap: 12px; }
 input[type="text"], input[type="email"], textarea {
   width: 100%; font: 400 1rem var(--font); color: var(--ink); background: var(--paper);
@@ -164,15 +167,23 @@ button[disabled] { opacity: .6; cursor: default; }
         <label class="opt"><input type="radio" name="feature" value="image_paste"><span data-i18n="q3_image">Paste images from the keyboard (QR codes, price lists, product photos)</span></label>
         <label class="opt"><input type="radio" name="feature" value="sync"><span data-i18n="q3_sync">Sync across devices (iPhone · iPad · Android)</span></label>
         <label class="opt"><input type="radio" name="feature" value="lock_folder"><span data-i18n="q3_lock">Folders locked with Face ID</span></label>
-        <label class="opt"><input type="radio" name="feature" value="auto_date"><span data-i18n="q3_date">Insert today's date or time automatically</span></label>
         <label class="opt"><input type="radio" name="feature" value="keyboard_search"><span data-i18n="q3_search">Search phrases in the keyboard</span></label>
         <label class="opt"><input type="radio" name="feature" value="other"><span data-i18n="q3_other">Something else</span></label>
-        <input class="other-text hidden" type="text" name="feature_other" maxlength="200" data-i18n-placeholder="q3_other_ph" placeholder="Which feature?">
+        <input class="other-text hidden" type="text" name="feature_other" disabled maxlength="200" data-i18n-placeholder="q3_other_ph" placeholder="Which feature?">
+        <p class="err" data-i18n="required">Please answer this question.</p>
+      </fieldset>
+
+      <fieldset data-required="date_feature">
+        <legend><span class="n">4</span><span data-i18n="q_date">Have you tried auto date &amp; time ({date}, {time}) in your phrases?</span></legend>
+        <label class="opt"><input type="radio" name="date_feature" value="often"><span data-i18n="q_date_often">Yes, I use it often</span></label>
+        <label class="opt"><input type="radio" name="date_feature" value="tried"><span data-i18n="q_date_tried">I've tried it a few times</span></label>
+        <label class="opt"><input type="radio" name="date_feature" value="not_yet"><span data-i18n="q_date_not_yet">Not yet</span></label>
+        <label class="opt"><input type="radio" name="date_feature" value="unaware"><span data-i18n="q_date_unaware">I didn't know about it</span></label>
         <p class="err" data-i18n="required">Please answer this question.</p>
       </fieldset>
 
       <fieldset data-required="keep">
-        <legend><span class="n">4</span><span data-i18n="q4">If we added that feature, how likely would you be to keep Premium?</span></legend>
+        <legend><span class="n">5</span><span data-i18n="q4">If we added that feature, how likely would you be to keep Premium?</span></legend>
         <div class="scale">
           <label><input type="radio" name="keep" value="1">1</label>
           <label><input type="radio" name="keep" value="2">2</label>
@@ -185,7 +196,7 @@ button[disabled] { opacity: .6; cursor: default; }
       </fieldset>
 
       <fieldset>
-        <legend><span class="n">5</span><span data-i18n="q5">Anything that bothers you, or that you'd like us to improve?</span></legend>
+        <legend><span class="n">6</span><span data-i18n="q5">Anything that bothers you, or that you'd like us to improve?</span></legend>
         <textarea name="comment" maxlength="2000" data-i18n-placeholder="q5_ph" placeholder="Optional"></textarea>
         <label for="email" class="hint" data-i18n="email">Email (optional) — if you're open to a short follow-up chat</label>
         <input id="email" type="email" name="email" maxlength="200" autocomplete="email" style="margin-top:6px">
@@ -227,7 +238,11 @@ button[disabled] { opacity: .6; cursor: default; }
       q3_image: "Paste images from the keyboard (QR codes, price lists, product photos)",
       q3_sync: "Sync across devices (iPhone · iPad · Android)",
       q3_lock: "Folders locked with Face ID",
-      q3_date: "Insert today's date or time automatically",
+      q_date: "Have you tried auto date & time ({date}, {time}) in your phrases?",
+      q_date_often: "Yes, I use it often",
+      q_date_tried: "I've tried it a few times",
+      q_date_not_yet: "Not yet",
+      q_date_unaware: "I didn't know about it",
       q3_search: "Search phrases in the keyboard",
       q3_other: "Something else",
       q3_other_ph: "Which feature?",
@@ -265,7 +280,11 @@ button[disabled] { opacity: .6; cursor: default; }
       q3_image: "วางรูปภาพจากคีย์บอร์ด (QR โค้ด ป้ายราคา รูปสินค้า)",
       q3_sync: "ซิงค์ข้ามอุปกรณ์ (iPhone · iPad · Android)",
       q3_lock: "โฟลเดอร์ที่ล็อกด้วย Face ID",
-      q3_date: "ใส่วันที่หรือเวลาปัจจุบันให้อัตโนมัติ",
+      q_date: "คุณเคยลองใช้ฟีเจอร์ใส่วันที่และเวลาอัตโนมัติ ({date}, {time}) ในข้อความไหม?",
+      q_date_often: "ใช้บ่อย",
+      q_date_tried: "เคยลองใช้ไม่กี่ครั้ง",
+      q_date_not_yet: "ยังไม่เคยใช้",
+      q_date_unaware: "ไม่รู้ว่ามีฟีเจอร์นี้",
       q3_search: "ค้นหาข้อความในคีย์บอร์ด",
       q3_other: "อย่างอื่น",
       q3_other_ph: "ฟีเจอร์ที่อยากได้",
@@ -303,7 +322,11 @@ button[disabled] { opacity: .6; cursor: default; }
       q3_image: "키보드에서 이미지 붙여넣기 (QR 코드, 가격표, 상품 사진)",
       q3_sync: "기기 간 동기화 (iPhone · iPad · Android)",
       q3_lock: "Face ID로 잠그는 폴더",
-      q3_date: "오늘 날짜·시간 자동 입력",
+      q_date: "문구의 날짜·시간 자동 입력({date}, {time})을 써보셨나요?",
+      q_date_often: "자주 쓰고 있어요",
+      q_date_tried: "몇 번 써봤어요",
+      q_date_not_yet: "아직 안 써봤어요",
+      q_date_unaware: "이런 기능이 있는지 몰랐어요",
       q3_search: "키보드에서 문구 검색",
       q3_other: "다른 기능",
       q3_other_ph: "어떤 기능인가요?",
@@ -341,7 +364,11 @@ button[disabled] { opacity: .6; cursor: default; }
       q3_image: "キーボードから画像を貼り付け（QRコード、価格表、商品写真）",
       q3_sync: "デバイス間の同期（iPhone · iPad · Android）",
       q3_lock: "Face IDでロックできるフォルダ",
-      q3_date: "今日の日付・時刻を自動で入力",
+      q_date: "フレーズの日付・時刻の自動入力（{date}、{time}）を使ってみましたか？",
+      q_date_often: "よく使っている",
+      q_date_tried: "何度か使ってみた",
+      q_date_not_yet: "まだ使っていない",
+      q_date_unaware: "この機能を知らなかった",
       q3_search: "キーボードで定型文を検索",
       q3_other: "その他の機能",
       q3_other_ph: "どんな機能ですか？",
@@ -379,7 +406,11 @@ button[disabled] { opacity: .6; cursor: default; }
       q3_image: "Pegar imágenes desde el teclado (códigos QR, listas de precios, fotos de productos)",
       q3_sync: "Sincronizar entre dispositivos (iPhone · iPad · Android)",
       q3_lock: "Carpetas bloqueadas con Face ID",
-      q3_date: "Insertar la fecha u hora actual automáticamente",
+      q_date: "¿Has probado la fecha y hora automáticas ({date}, {time}) en tus frases?",
+      q_date_often: "Sí, la uso a menudo",
+      q_date_tried: "La he probado algunas veces",
+      q_date_not_yet: "Todavía no",
+      q_date_unaware: "No sabía que existía",
       q3_search: "Buscar frases desde el teclado",
       q3_other: "Otra cosa",
       q3_other_ph: "¿Qué función?",
@@ -444,7 +475,13 @@ button[disabled] { opacity: .6; cursor: default; }
     if (e.target.name === "feature") {
       var isOther = e.target.value === "other";
       otherText.classList.toggle("hidden", !isOther);
-      if (isOther) otherText.focus();
+      // 숨긴 입력도 FormData 에 들어가므로 비우고 비활성화 (disabled 는 제출되지 않음)
+      otherText.disabled = !isOther;
+      if (isOther) {
+        otherText.focus();
+      } else {
+        otherText.value = "";
+      }
     }
     var fs = e.target.closest("fieldset");
     if (fs) fs.classList.remove("invalid");

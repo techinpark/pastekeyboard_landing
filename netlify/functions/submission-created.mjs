@@ -16,6 +16,12 @@ const LABELS = {
     support_dev: "개발자 응원",
     other: "기타",
   },
+  date_feature: {
+    often: "자주 씀",
+    tried: "몇 번 써봄",
+    not_yet: "아직 안 씀",
+    unaware: "몰랐음",
+  },
   feature: {
     image_paste: "📷 이미지 붙여넣기",
     sync: "🔄 기기 간 동기화",
@@ -48,6 +54,7 @@ export default async (req) => {
     { name: "유지 가능성", value: keep ? `${"★".repeat(keep)}${"☆".repeat(5 - keep)} (${keep}/5)` : "-", inline: true },
     { name: "용도", value: LABELS.usage[d.usage] ?? d.usage ?? "-", inline: true },
     { name: "구독 이유", value: LABELS.reason[d.reason] ?? d.reason ?? "-", inline: true },
+    { name: "📅 날짜·시간 자동 입력", value: LABELS.date_feature[d.date_feature] ?? d.date_feature ?? "-", inline: true },
   ];
   if (d.comment) fields.push({ name: "의견", value: clip(d.comment, 1000), inline: false });
   if (d.email) fields.push({ name: "인터뷰 가능 이메일", value: clip(d.email, 200), inline: false });
