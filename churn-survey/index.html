@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1QGC8KQCWV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-1QGC8KQCWV");</script>
+<title>Paste Keyboard Survey</title>
+<link rel="icon" href="/assets/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;700&display=swap">
+<style>
+:root {
+  --paper: #F1F6F8;
+  --surface: #FFFFFF;
+  --ink: #0F1B22;
+  --muted: #55656F;
+  --line: #D6E1E6;
+  --cyan: #26B8D6;
+  --cyan-deep: #0A7F98;
+  --cyan-wash: rgba(38, 184, 214, .12);
+  --danger: #C2410C;
+  --font: "Plus Jakarta Sans", "Noto Sans Thai", system-ui, -apple-system, "Apple SD Gothic Neo", "Hiragino Sans", "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #091217;
+    --surface: #111D24;
+    --ink: #E9F1F4;
+    --muted: #93A6B0;
+    --line: #20313A;
+    --cyan: #3CC8E2;
+    --cyan-deep: #62D4EA;
+    --cyan-wash: rgba(60, 200, 226, .13);
+    --danger: #FB923C;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #091217;
+  --surface: #111D24;
+  --ink: #E9F1F4;
+  --muted: #93A6B0;
+  --line: #20313A;
+  --cyan: #3CC8E2;
+  --cyan-deep: #62D4EA;
+  --cyan-wash: rgba(60, 200, 226, .13);
+  --danger: #FB923C;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1rem/1.55 var(--font);
+}
+.wrap { max-width: 640px; margin: 0 auto; padding: 28px 16px 64px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
+.mark { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.mark img { width: 36px; height: 36px; border-radius: 9px; }
+select.lang {
+  font: 500 .875rem var(--font); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px;
+}
+h1 { font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2rem); line-height: 1.25; margin: 0 0 8px; letter-spacing: -.01em; }
+.lead { color: var(--muted); margin: 0 0 24px; }
+fieldset {
+  border: 1px solid var(--line); border-radius: 14px; background: var(--surface);
+  margin: 0 0 14px; padding: 18px 16px 14px;
+}
+legend { padding: 0; float: left; width: 100%; font-weight: 700; margin-bottom: 12px; }
+legend .n { color: var(--cyan-deep); margin-right: 6px; }
+legend + * { clear: both; }
+.opt {
+  display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; margin: 0 0 6px;
+  border: 1px solid var(--line); border-radius: 10px; cursor: pointer;
+}
+.opt:has(input:checked) { border-color: var(--cyan); background: var(--cyan-wash); }
+.opt input { margin: 4px 0 0; accent-color: var(--cyan-deep); flex: none; }
+.scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.scale label {
+  display: flex; align-items: center; justify-content: center; min-height: 44px;
+  border: 1px solid var(--line); border-radius: 10px; font-weight: 700; cursor: pointer;
+}
+.scale label:has(input:checked) { border-color: var(--cyan); background: var(--cyan-wash); color: var(--cyan-deep); }
+.scale input { position: absolute; opacity: 0; pointer-events: none; }
+.scale label:has(input:focus-visible) { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.scale-ends { display: flex; justify-content: space-between; color: var(--muted); font-size: .8125rem; margin-top: 6px; gap: 12px; }
+input[type="text"], input[type="email"], textarea {
+  width: 100%; font: 400 1rem var(--font); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+}
+textarea { min-height: 110px; resize: vertical; }
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.other-text { margin-top: 4px; }
+.hint { color: var(--muted); font-size: .875rem; margin: 6px 0 0; }
+.err { color: var(--danger); font-size: .875rem; margin: 6px 0 0; display: none; }
+fieldset.invalid { border-color: var(--danger); }
+fieldset.invalid .err { display: block; }
+button[type="submit"] {
+  width: 100%; min-height: 52px; border: 0; border-radius: 12px; cursor: pointer;
+  background: var(--cyan-deep); color: #fff; font: 700 1.0625rem var(--font); margin-top: 8px;
+}
+:root[data-theme="dark"] button[type="submit"] { color: #062029; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) button[type="submit"] { color: #062029; } }
+button[disabled] { opacity: .6; cursor: default; }
+.privacy { color: var(--muted); font-size: .8125rem; text-align: center; margin: 12px 0 0; }
+.form-error { color: var(--danger); text-align: center; margin: 10px 0 0; display: none; }
+.thanks { display: none; text-align: center; padding: 48px 8px; }
+.thanks .check {
+  width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 16px; display: grid; place-items: center;
+  background: var(--cyan-wash); color: var(--cyan-deep); font-size: 32px; font-weight: 800;
+}
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="mark"><img src="/assets/icon-192.png" alt=""><span data-i18n="app">Paste Keyboard</span></div>
+    <select class="lang" id="lang" aria-label="Language">
+      <option value="en">English</option>
+      <option value="th">ไทย</option>
+      <option value="ko">한국어</option>
+      <option value="ja">日本語</option>
+      <option value="es">Español</option>
+      <option value="zh-Hant">繁體中文</option>
+    </select>
+  </header>
+
+  <main id="survey">
+    <h1 data-i18n="title">Tell us why you left</h1>
+    <p class="lead" data-i18n="lead">A short survey for people who used Premium before. It takes less than 2 minutes.</p>
+
+    <form name="churn-survey" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="churn-survey">
+      <input type="hidden" name="lang" value="en">
+      <input type="hidden" name="src" value="">
+      <p class="hidden"><label>Leave empty <input name="bot-field"></label></p>
+
+      <fieldset data-required="usage">
+        <legend><span class="n">1</span><span data-i18n="q1">What do you mainly use Paste Keyboard for?</span></legend>
+        <label class="opt"><input type="radio" name="usage" value="selling"><span data-i18n="q1_selling">Selling or replying to customers</span></label>
+        <label class="opt"><input type="radio" name="usage" value="work"><span data-i18n="q1_work">Work messages or email</span></label>
+        <label class="opt"><input type="radio" name="usage" value="personal"><span data-i18n="q1_personal">Filling in personal info (address, bank account, etc.)</span></label>
+        <label class="opt"><input type="radio" name="usage" value="social"><span data-i18n="q1_social">Social media posts or comments</span></label>
+        <label class="opt"><input type="radio" name="usage" value="other"><span data-i18n="other">Other</span></label>
+        <p class="err" data-i18n="required">Please answer this question.</p>
+      </fieldset>
+
+      <fieldset data-required="reason">
+        <legend><span class="n">2</span><span data-i18n="q2">What was the main reason you cancelled Premium?</span></legend>
+        <label class="opt"><input type="radio" name="reason" value="price"><span data-i18n="r_price">It was too expensive for me</span></label>
+        <label class="opt"><input type="radio" name="reason" value="not_often"><span data-i18n="r_not_often">I didn't use it as often as I thought</span></label>
+        <label class="opt"><input type="radio" name="reason" value="missing_feature"><span data-i18n="r_missing">A feature I needed was missing</span></label>
+        <label class="opt"><input type="radio" name="reason" value="bug"><span data-i18n="r_bug">Bugs or problems (e.g. phrases not showing in the keyboard)</span></label>
+        <label class="opt"><input type="radio" name="reason" value="trial_charge"><span data-i18n="r_trial">I only wanted to try it, but I was charged</span></label>
+        <label class="opt"><input type="radio" name="reason" value="switched"><span data-i18n="r_switched">I switched to another app</span></label>
+        <label class="opt"><input type="radio" name="reason" value="other"><span data-i18n="other">Other</span></label>
+        <input class="other-text hidden" type="text" name="reason_other" disabled maxlength="200" data-i18n-placeholder="reason_other_ph" placeholder="What was the reason?">
+        <p class="err" data-i18n="required">Please answer this question.</p>
+      </fieldset>
+
+      <fieldset data-required="comeback">
+        <legend><span class="n">3</span><span data-i18n="q3c">What would make you come back to Premium?</span></legend>
+        <label class="opt"><input type="radio" name="comeback" value="discount"><span data-i18n="c_discount">A discount or lower price</span></label>
+        <label class="opt"><input type="radio" name="comeback" value="feature"><span data-i18n="c_feature">A feature I need</span></label>
+        <label class="opt"><input type="radio" name="comeback" value="bug_fix"><span data-i18n="c_fix">Fixing a problem I had</span></label>
+        <label class="opt"><input type="radio" name="comeback" value="nothing"><span data-i18n="c_nothing">Nothing, I don't need Premium</span></label>
+        <p class="err" data-i18n="required">Please answer this question.</p>
+      </fieldset>
+
+      <fieldset data-required="feature">
+        <legend><span class="n">4</span><span data-i18n="q3">Which feature would you want most? (choose one)</span></legend>
+        <label class="opt"><input type="radio" name="feature" value="image_paste"><span data-i18n="q3_image">Paste images from the keyboard (QR codes, price lists, product photos)</span></label>
+        <label class="opt"><input type="radio" name="feature" value="sync"><span data-i18n="q3_sync">Sync across devices (iPhone · iPad · Android)</span></label>
+        <label class="opt"><input type="radio" name="feature" value="lock_folder"><span data-i18n="q3_lock">Folders locked with Face ID</span></label>
+        <label class="opt"><input type="radio" name="feature" value="keyboard_search"><span data-i18n="q3_search">Search phrases in the keyboard</span></label>
+        <label class="opt"><input type="radio" name="feature" value="other"><span data-i18n="q3_other">Something else</span></label>
+        <input class="other-text hidden" type="text" name="feature_other" disabled maxlength="200" data-i18n-placeholder="q3_other_ph" placeholder="Which feature?">
+        <p class="err" data-i18n="required">Please answer this question.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="n">5</span><span data-i18n="q5">Anything else you'd like to tell us?</span></legend>
+        <textarea name="comment" maxlength="2000" data-i18n-placeholder="q5_ph" placeholder="Optional"></textarea>
+        <label for="email" class="hint" data-i18n="email">Email (optional) — if you're open to a short follow-up chat</label>
+        <input id="email" type="email" name="email" maxlength="200" autocomplete="email" style="margin-top:6px">
+      </fieldset>
+
+      <button type="submit" data-i18n="submit">Send answers</button>
+      <p class="form-error" data-i18n="send_error">Couldn't send. Please try again.</p>
+      <p class="privacy" data-i18n="privacy">Your answers are only used to improve the app.</p>
+    </form>
+  </main>
+
+  <section class="thanks" id="thanks" aria-live="polite">
+    <div class="check">✓</div>
+    <h1 data-i18n="thanks_title">Thank you!</h1>
+    <p class="lead" data-i18n="thanks_body">Your answers help us make Paste Keyboard better.</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  var T = {
+    "en": {
+      app: "Paste Keyboard",
+      q1: "What do you mainly use Paste Keyboard for?",
+      q1_selling: "Selling or replying to customers",
+      q1_work: "Work messages or email",
+      q1_personal: "Filling in personal info (address, bank account, etc.)",
+      q1_social: "Social media posts or comments",
+      other: "Other",
+      q3: "Which feature would you want most? (choose one)",
+      q3_image: "Paste images from the keyboard (QR codes, price lists, product photos)",
+      q3_sync: "Sync across devices (iPhone · iPad · Android)",
+      q3_lock: "Folders locked with Face ID",
+      q3_search: "Search phrases in the keyboard",
+      q3_other: "Something else",
+      q3_other_ph: "Which feature?",
+      q5_ph: "Optional",
+      email: "Email (optional) — if you're open to a short follow-up chat",
+      submit: "Send answers",
+      sending: "Sending…",
+      send_error: "Couldn't send. Please try again.",
+      required: "Please answer this question.",
+      privacy: "Your answers are only used to improve the app.",
+      thanks_title: "Thank you!",
+      title: "Tell us why you left",
+      lead: "A short survey for people who used Premium before. It takes less than 2 minutes.",
+      q2: "What was the main reason you cancelled Premium?",
+      r_price: "It was too expensive for me",
+      r_not_often: "I didn't use it as often as I thought",
+      r_missing: "A feature I needed was missing",
+      r_bug: "Bugs or problems (e.g. phrases not showing in the keyboard)",
+      r_trial: "I only wanted to try it, but I was charged",
+      r_switched: "I switched to another app",
+      reason_other_ph: "What was the reason?",
+      q3c: "What would make you come back to Premium?",
+      c_discount: "A discount or lower price",
+      c_feature: "A feature I need",
+      c_fix: "Fixing a problem I had",
+      c_nothing: "Nothing, I don't need Premium",
+      q5: "Anything else you'd like to tell us?",
+      thanks_body: "Your answers help us make Paste Keyboard better."
+    },
+    "th": {
+      app: "Paste Keyboard",
+      q1: "คุณใช้ Paste Keyboard ทำอะไรเป็นหลัก?",
+      q1_selling: "ขายของ หรือตอบแชทลูกค้า",
+      q1_work: "ข้อความหรืออีเมลเกี่ยวกับงาน",
+      q1_personal: "กรอกข้อมูลส่วนตัว (ที่อยู่ เลขบัญชี ฯลฯ)",
+      q1_social: "โพสต์หรือคอมเมนต์ในโซเชียล",
+      other: "อื่น ๆ",
+      q3: "ฟีเจอร์ไหนที่คุณอยากได้มากที่สุด? (เลือก 1 ข้อ)",
+      q3_image: "วางรูปภาพจากคีย์บอร์ด (QR โค้ด ป้ายราคา รูปสินค้า)",
+      q3_sync: "ซิงค์ข้ามอุปกรณ์ (iPhone · iPad · Android)",
+      q3_lock: "โฟลเดอร์ที่ล็อกด้วย Face ID",
+      q3_search: "ค้นหาข้อความในคีย์บอร์ด",
+      q3_other: "อย่างอื่น",
+      q3_other_ph: "ฟีเจอร์ที่อยากได้",
+      q5_ph: "ไม่บังคับ",
+      email: "อีเมล (ไม่บังคับ) หากยินดีให้เราติดต่อเพื่อพูดคุยสั้น ๆ",
+      submit: "ส่งคำตอบ",
+      sending: "กำลังส่ง…",
+      send_error: "ส่งไม่สำเร็จ โปรดลองอีกครั้ง",
+      required: "โปรดตอบคำถามนี้",
+      privacy: "คำตอบของคุณจะใช้เพื่อปรับปรุงแอปเท่านั้น",
+      thanks_title: "ขอบคุณมาก!",
+      title: "บอกเราหน่อยว่าทำไมคุณถึงยกเลิก",
+      lead: "แบบสอบถามสั้น ๆ สำหรับผู้ที่เคยใช้พรีเมียม ใช้เวลาไม่ถึง 2 นาที",
+      q2: "เหตุผลหลักที่คุณยกเลิกพรีเมียมคืออะไร?",
+      r_price: "ราคาแพงเกินไปสำหรับฉัน",
+      r_not_often: "ไม่ได้ใช้บ่อยอย่างที่คิด",
+      r_missing: "ไม่มีฟีเจอร์ที่ต้องการ",
+      r_bug: "มีปัญหาหรือข้อผิดพลาด (เช่น ข้อความไม่แสดงในคีย์บอร์ด)",
+      r_trial: "แค่อยากลองใช้ แต่ถูกเรียกเก็บเงิน",
+      r_switched: "เปลี่ยนไปใช้แอปอื่น",
+      reason_other_ph: "เหตุผลคืออะไร?",
+      q3c: "อะไรจะทำให้คุณกลับมาใช้พรีเมียมอีกครั้ง?",
+      c_discount: "ส่วนลดหรือราคาที่ถูกลง",
+      c_feature: "ฟีเจอร์ที่ต้องการ",
+      c_fix: "แก้ปัญหาที่เคยเจอ",
+      c_nothing: "ไม่มี (ไม่ต้องการพรีเมียม)",
+      q5: "มีอะไรอื่นที่อยากบอกเราไหม?",
+      thanks_body: "คำตอบของคุณช่วยให้เราทำ Paste Keyboard ให้ดียิ่งขึ้น"
+    },
+    "ko": {
+      app: "복붙키보드",
+      q1: "복붙키보드를 주로 어디에 쓰시나요?",
+      q1_selling: "판매나 고객 응대",
+      q1_work: "업무 메시지나 메일",
+      q1_personal: "개인 정보 입력 (주소, 계좌번호 등)",
+      q1_social: "SNS 글이나 댓글",
+      other: "기타",
+      q3: "가장 갖고 싶은 기능 하나를 골라 주세요.",
+      q3_image: "키보드에서 이미지 붙여넣기 (QR 코드, 가격표, 상품 사진)",
+      q3_sync: "기기 간 동기화 (iPhone · iPad · Android)",
+      q3_lock: "Face ID로 잠그는 폴더",
+      q3_search: "키보드에서 문구 검색",
+      q3_other: "다른 기능",
+      q3_other_ph: "어떤 기능인가요?",
+      q5_ph: "선택 사항",
+      email: "이메일 (선택) — 짧은 인터뷰에 응해 주실 수 있다면",
+      submit: "답변 보내기",
+      sending: "보내는 중…",
+      send_error: "보내지 못했습니다. 다시 시도해 주세요.",
+      required: "이 질문에 답해 주세요.",
+      privacy: "답변은 앱 개선에만 사용됩니다.",
+      thanks_title: "감사합니다!",
+      title: "구독을 그만두신 이유를 들려주세요",
+      lead: "프리미엄을 이용해 주셨던 분들께 드리는 짧은 설문입니다. 2분이면 끝나요.",
+      q2: "프리미엄 구독을 취소한 가장 큰 이유는 무엇인가요?",
+      r_price: "가격이 부담돼서",
+      r_not_often: "생각보다 자주 쓰지 않아서",
+      r_missing: "필요한 기능이 없어서",
+      r_bug: "오류나 불편 때문에 (예: 키보드에 문구가 안 보임)",
+      r_trial: "무료 체험만 해보려 했는데 결제돼서",
+      r_switched: "다른 앱으로 바꿔서",
+      reason_other_ph: "어떤 이유인가요?",
+      q3c: "무엇이 있으면 프리미엄을 다시 구독하시겠어요?",
+      c_discount: "할인이나 더 낮은 가격",
+      c_feature: "필요한 기능",
+      c_fix: "겪었던 문제 해결",
+      c_nothing: "없음 (프리미엄이 필요 없어요)",
+      q5: "그 밖에 하고 싶은 말씀이 있다면 알려 주세요.",
+      thanks_body: "보내 주신 답변으로 복붙키보드를 더 좋게 만들겠습니다."
+    },
+    "ja": {
+      app: "コピペキーボード",
+      q1: "コピペキーボードを主に何に使っていますか？",
+      q1_selling: "販売やお客様への返信",
+      q1_work: "仕事のメッセージやメール",
+      q1_personal: "個人情報の入力（住所、口座番号など）",
+      q1_social: "SNSの投稿やコメント",
+      other: "その他",
+      q3: "いちばん欲しい機能をひとつ選んでください。",
+      q3_image: "キーボードから画像を貼り付け（QRコード、価格表、商品写真）",
+      q3_sync: "デバイス間の同期（iPhone · iPad · Android）",
+      q3_lock: "Face IDでロックできるフォルダ",
+      q3_search: "キーボードで定型文を検索",
+      q3_other: "その他の機能",
+      q3_other_ph: "どんな機能ですか？",
+      q5_ph: "任意",
+      email: "メールアドレス（任意）— 短いインタビューにご協力いただける場合",
+      submit: "回答を送信",
+      sending: "送信中…",
+      send_error: "送信できませんでした。もう一度お試しください。",
+      required: "この質問に回答してください。",
+      privacy: "回答はアプリの改善にのみ使用します。",
+      thanks_title: "ありがとうございました！",
+      title: "解約の理由を教えてください",
+      lead: "以前プレミアムをご利用いただいた方への短いアンケートです。2分で終わります。",
+      q2: "プレミアムを解約したいちばんの理由は？",
+      r_price: "料金が高いと感じた",
+      r_not_often: "思ったより使わなかった",
+      r_missing: "必要な機能がなかった",
+      r_bug: "不具合や使いにくさ（例：キーボードに定型文が表示されない）",
+      r_trial: "お試しのつもりだったのに課金された",
+      r_switched: "別のアプリに乗り換えた",
+      reason_other_ph: "どんな理由ですか？",
+      q3c: "何があればプレミアムを再開したいと思いますか？",
+      c_discount: "割引やもっと安い料金",
+      c_feature: "必要な機能",
+      c_fix: "困っていた問題の解決",
+      c_nothing: "特にない（プレミアムは必要ない）",
+      q5: "そのほか、伝えたいことがあれば教えてください。",
+      thanks_body: "いただいた回答をもとに、コピペキーボードをもっと良くしていきます。"
+    },
+    "es": {
+      app: "Teclado de Pegar",
+      q1: "¿Para qué usas principalmente Teclado de Pegar?",
+      q1_selling: "Vender o responder a clientes",
+      q1_work: "Mensajes o correos de trabajo",
+      q1_personal: "Escribir datos personales (dirección, cuenta bancaria, etc.)",
+      q1_social: "Publicaciones o comentarios en redes sociales",
+      other: "Otro",
+      q3: "¿Qué función te gustaría más? (elige una)",
+      q3_image: "Pegar imágenes desde el teclado (códigos QR, listas de precios, fotos de productos)",
+      q3_sync: "Sincronizar entre dispositivos (iPhone · iPad · Android)",
+      q3_lock: "Carpetas bloqueadas con Face ID",
+      q3_search: "Buscar frases desde el teclado",
+      q3_other: "Otra cosa",
+      q3_other_ph: "¿Qué función?",
+      q5_ph: "Opcional",
+      email: "Correo (opcional): si te parece bien una charla breve",
+      submit: "Enviar respuestas",
+      sending: "Enviando…",
+      send_error: "No se pudo enviar. Inténtalo de nuevo.",
+      required: "Responde esta pregunta.",
+      privacy: "Tus respuestas solo se usan para mejorar la app.",
+      thanks_title: "¡Gracias!",
+      title: "Cuéntanos por qué te fuiste",
+      lead: "Una encuesta breve para quienes usaron Premium. Toma menos de 2 minutos.",
+      q2: "¿Cuál fue la razón principal para cancelar Premium?",
+      r_price: "Era demasiado caro para mí",
+      r_not_often: "No lo usaba tanto como pensaba",
+      r_missing: "Faltaba una función que necesitaba",
+      r_bug: "Errores o problemas (p. ej., las frases no aparecían en el teclado)",
+      r_trial: "Solo quería probarlo, pero me cobraron",
+      r_switched: "Me cambié a otra app",
+      reason_other_ph: "¿Cuál fue la razón?",
+      q3c: "¿Qué te haría volver a Premium?",
+      c_discount: "Un descuento o un precio más bajo",
+      c_feature: "Una función que necesito",
+      c_fix: "Que se solucione un problema que tuve",
+      c_nothing: "Nada, no necesito Premium",
+      q5: "¿Hay algo más que quieras contarnos?",
+      thanks_body: "Tus respuestas nos ayudan a mejorar Teclado de Pegar."
+    },
+    "zh-Hant": {
+      app: "複製貼上鍵盤",
+      title: "告訴我們您取消的原因",
+      lead: "這是給曾經使用 Premium 的用戶的簡短問卷，不到 2 分鐘就能完成。",
+      q1: "您主要用複製貼上鍵盤做什麼？",
+      q1_selling: "銷售或回覆客人",
+      q1_work: "工作訊息或電子郵件",
+      q1_personal: "輸入個人資料（地址、銀行帳號等）",
+      q1_social: "社群貼文或留言",
+      other: "其他",
+      q2: "您取消 Premium 的主要原因是什麼？",
+      r_price: "價格對我來說太貴",
+      r_not_often: "沒有想像中那麼常用",
+      r_missing: "缺少我需要的功能",
+      r_bug: "有錯誤或不便（例如：鍵盤裡沒有顯示常用語）",
+      r_trial: "只想試用，卻被收費了",
+      r_switched: "改用其他 App",
+      reason_other_ph: "是什麼原因呢？",
+      q3c: "有什麼能讓您重新訂閱 Premium？",
+      c_discount: "折扣或更低的價格",
+      c_feature: "我需要的功能",
+      c_fix: "解決我遇到的問題",
+      c_nothing: "沒有（我不需要 Premium）",
+      q3: "您最想要哪個功能？（選一個）",
+      q3_image: "從鍵盤貼上圖片（QR Code、價目表、商品照片）",
+      q3_sync: "跨裝置同步（iPhone · iPad · Android）",
+      q3_lock: "用 Face ID 鎖定的資料夾",
+      q3_search: "在鍵盤中搜尋常用語",
+      q3_other: "其他功能",
+      q3_other_ph: "是什麼功能呢？",
+      q5: "還有其他想告訴我們的嗎？",
+      q5_ph: "選填",
+      email: "電子郵件（選填）— 如果您願意接受簡短訪談",
+      submit: "送出回答",
+      sending: "傳送中…",
+      send_error: "無法送出，請再試一次。",
+      required: "請回答這個問題。",
+      privacy: "您的回答僅用於改善 App。",
+      thanks_title: "謝謝您！",
+      thanks_body: "您的回答能幫助我們讓複製貼上鍵盤變得更好。"
+    }
+  };
+
+  var params = new URLSearchParams(location.search);
+  var form = document.querySelector("form");
+  var select = document.getElementById("lang");
+
+  // zh-TW·zh-HK·zh-Hant 는 번체, 간체(zh-CN·zh-Hans 등)는 영어
+  function normalize(code) {
+    code = String(code || "").toLowerCase();
+    if (code.indexOf("zh") === 0) return /hant|tw|hk|mo/.test(code) ? "zh-Hant" : "";
+    code = code.split("-")[0];
+    return T[code] ? code : "";
+  }
+
+  function pickLang() {
+    var q = normalize(params.get("lang"));
+    if (q) return q;
+    var langs = navigator.languages || [navigator.language || "en"];
+    for (var i = 0; i < langs.length; i++) {
+      var code = normalize(langs[i]);
+      if (code) return code;
+    }
+    return "en";
+  }
+
+  function apply(lang) {
+    var t = T[lang];
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n");
+      if (t[key]) el.textContent = t[key];
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-placeholder");
+      if (t[key]) el.placeholder = t[key];
+    });
+    document.title = t.title;
+    form.elements.lang.value = lang;
+    select.value = lang;
+  }
+
+  var current = pickLang();
+  apply(current);
+  form.elements.src.value = (params.get("src") || "").slice(0, 60);
+
+  select.addEventListener("change", function () {
+    current = select.value;
+    apply(current);
+  });
+
+  // "기타"를 고르면 직접 입력란을 보여 줌 (질문 이름 → 입력란 이름)
+  var OTHER_TEXT = { reason: "reason_other", feature: "feature_other" };
+  form.addEventListener("change", function (e) {
+    var textName = OTHER_TEXT[e.target.name];
+    if (textName) {
+      var otherText = form.elements[textName];
+      var isOther = e.target.value === "other";
+      otherText.classList.toggle("hidden", !isOther);
+      // 숨긴 입력도 FormData 에 들어가므로 비우고 비활성화 (disabled 는 제출되지 않음)
+      otherText.disabled = !isOther;
+      if (isOther) {
+        otherText.focus();
+      } else {
+        otherText.value = "";
+      }
+    }
+    var fs = e.target.closest("fieldset");
+    if (fs) fs.classList.remove("invalid");
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var firstInvalid = null;
+    form.querySelectorAll("fieldset[data-required]").forEach(function (fs) {
+      var name = fs.getAttribute("data-required");
+      var ok = !!form.querySelector('input[name="' + name + '"]:checked');
+      fs.classList.toggle("invalid", !ok);
+      if (!ok && !firstInvalid) firstInvalid = fs;
+    });
+    if (firstInvalid) {
+      firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    var button = form.querySelector('button[type="submit"]');
+    var errorLine = form.querySelector(".form-error");
+    button.disabled = true;
+    button.textContent = T[current].sending;
+    errorLine.style.display = "none";
+
+    fetch("/churn-survey/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(function (res) {
+      if (!res.ok) throw new Error(String(res.status));
+      if (typeof gtag === "function") gtag("event", "churn_survey_submitted", { lang: current });
+      document.getElementById("survey").style.display = "none";
+      var thanks = document.getElementById("thanks");
+      thanks.style.display = "block";
+      window.scrollTo(0, 0);
+    }).catch(function () {
+      button.disabled = false;
+      button.textContent = T[current].submit;
+      errorLine.style.display = "block";
+    });
+  });
+})();
+</script>
+</body>
+</html>

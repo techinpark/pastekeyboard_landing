@@ -53,6 +53,10 @@
   for = "/survey/*"
   [headers.values]
     X-Robots-Tag = "noindex"
+[[headers]]
+  for = "/churn-survey/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
 # 폼 응답 → 디스코드 알림 함수 (website/functions → netlify/functions)
 [functions]
   directory = "netlify/functions"
