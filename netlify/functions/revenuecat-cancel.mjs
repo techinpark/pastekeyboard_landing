@@ -1,4 +1,4 @@
-// RevenueCat 웹훅 → 구독을 취소한 사용자에게 바로 취소 설문 푸시를 보냄 (/.netlify/functions/revenuecat-cancel)
+// RevenueCat 웹훅 → 구독 해지 시 취소 설문, 구독 만료 시 재구독 안내 푸시를 보냄 (/.netlify/functions/revenuecat-cancel)
 // 앱이 RevenueCat 속성 fcm_token·app_language 를 올려 둬야 보낼 수 있음 (2.9.0 이후)
 // 환경 변수 (Netlify 에만 둠, 출력·커밋 금지)
 // - RC_WEBHOOK_AUTH: RevenueCat 웹훅에 설정한 Authorization 헤더 값
@@ -15,6 +15,16 @@ const COPY = {
   th: { title: "เสียดายที่คุณยกเลิก", body: "บอกเราหน่อยว่าเราควรปรับปรุงอะไร ใช้เวลาแค่ 1 นาที" },
   es: { title: "Lamentamos que te vayas", body: "¿Qué podríamos mejorar? Cuéntanoslo en una encuesta de 1 minuto." },
   "zh-Hant": { title: "很遺憾你取消了訂閱", body: "哪裡讓你不滿意呢？花 1 分鐘填寫問卷，幫助我們改進。" },
+};
+
+// 구독 만료 → 앱 결제 화면(pastekeyboard://payment)으로 재구독 안내
+const WINBACK_COPY = {
+  en: { title: "Your Premium has ended", body: "Your saved phrases are all still here. Come back to Premium for unlimited saving with no ads." },
+  ko: { title: "프리미엄 이용이 끝났어요", body: "저장한 문구는 그대로 있어요. 다시 구독하면 광고 없이 무제한으로 저장할 수 있어요." },
+  ja: { title: "プレミアムの期間が終了しました", body: "保存したフレーズはそのまま残っています。再登録で広告なし・無制限に保存できます。" },
+  th: { title: "พรีเมียมของคุณหมดอายุแล้ว", body: "ข้อความที่บันทึกไว้ยังอยู่ครบ สมัครอีกครั้งเพื่อบันทึกได้ไม่จำกัดและไม่มีโฆษณา" },
+  es: { title: "Tu Premium ha terminado", body: "Tus frases guardadas siguen aquí. Vuelve a Premium para guardar sin límites y sin anuncios." },
+  "zh-Hant": { title: "你的進階版已到期", body: "已儲存的文字都還在。重新訂閱即可無限儲存、免廣告。" },
 };
 
 // 설문 페이지의 normalize 와 같은 규칙 (zh-Hant 만 중국어로, 그 밖의 언어는 영어)
@@ -54,23 +64,34 @@ async function accessToken(sa) {
 
 export function buildMessage(event) {
   const lang = normalize(attr(event, "app_language") || attr(event, "locale"));
-  const { title, body } = COPY[lang];
-  const query = new URLSearchParams({ src: "cancel_push" });
-  if (lang !== "en") query.set("lang", lang);
+  const winback = event.type === "EXPIRATION";
+  const { title, body } = (winback ? WINBACK_COPY : COPY)[lang];
+  let linkURL = "pastekeyboard://payment";
+  if (!winback) {
+    const query = new URLSearchParams({ src: "cancel_push" });
+    if (lang !== "en") query.set("lang", lang);
+    linkURL = `${SURVEY_URL}?${query}`;
+  }
   return {
     lang,
     message: {
       token: attr(event, "fcm_token"),
       notification: { title, body },
-      data: { linkURL: `${SURVEY_URL}?${query}`, campaign_id: "churn_survey_cancel_auto" },
+      data: { linkURL, campaign_id: winback ? "winback_expired_auto" : "churn_survey_cancel_auto" },
       apns: { payload: { aps: { sound: "default" } } },
     },
   };
 }
 
-// 직접 해지한 경우만 (결제 실패·환불·개발자 취소 제외). TEST 는 RevenueCat 의 '테스트 이벤트 보내기'
-export const shouldSend = (event) =>
-  event?.type === "CANCELLATION" && event.cancel_reason === "UNSUBSCRIBE" && event.store === "APP_STORE";
+// 해지 설문은 직접 해지한 경우만 (결제 실패·환불·개발자 취소 제외). TEST 는 RevenueCat 의 '테스트 이벤트 보내기'
+// 재구독 안내는 해지·결제 실패·가격 인상으로 만료된 경우 (환불·개발자 취소·일시정지 제외)
+const WINBACK_REASONS = ["UNSUBSCRIBE", "BILLING_ERROR", "PRICE_INCREASE"];
+export const shouldSend = (event) => {
+  if (event?.store !== "APP_STORE") return false;
+  if (event.type === "CANCELLATION") return event.cancel_reason === "UNSUBSCRIBE";
+  if (event.type === "EXPIRATION") return WINBACK_REASONS.includes(event.expiration_reason);
+  return false;
+};
 
 async function notifyDiscord(text) {
   const webhook = process.env.DISCORD_WEBHOOK_URL;
@@ -93,8 +114,11 @@ export default async (req) => {
 
   const { lang, message } = buildMessage(event);
   const where = `${event.environment === "SANDBOX" ? "[샌드박스] " : ""}${event.product_id || "-"} · ${event.country_code || "-"} · ${lang}`;
+  const [what, push] = event.type === "EXPIRATION"
+    ? [`구독 만료 (${event.expiration_reason})`, "재구독 안내 푸시"]
+    : ["구독 해지", "설문 푸시"];
   if (!message.token) {
-    await notifyDiscord(`구독 해지 발생 (${where}) — 푸시 토큰 없음(이전 버전), 설문 못 보냄`);
+    await notifyDiscord(`${what} 발생 (${where}) — 푸시 토큰 없음(이전 버전), ${push} 못 보냄`);
     return new Response("no token", { status: 200 });
   }
 
@@ -108,10 +132,10 @@ export default async (req) => {
       headers: { Authorization: `Bearer ${await accessToken(sa)}`, "Content-Type": "application/json" },
       body: JSON.stringify({ message }),
     });
-    await notifyDiscord(`구독 해지 발생 (${where}) — 설문 푸시 ${res.ok ? "보냄" : `실패 ${res.status}`}`);
+    await notifyDiscord(`${what} 발생 (${where}) — ${push} ${res.ok ? "보냄" : `실패 ${res.status}`}`);
     return new Response(res.ok ? "sent" : `fcm ${res.status}`, { status: 200 });
   } catch (error) {
-    await notifyDiscord(`구독 해지 발생 (${where}) — 설문 푸시 실패 ${error.message}`);
+    await notifyDiscord(`${what} 발생 (${where}) — ${push} 실패 ${error.message}`);
     return new Response("error", { status: 200 });
   }
 };
